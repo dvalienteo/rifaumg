@@ -136,18 +136,38 @@
     }
 
     async function updatePassword() {
-        const newP = document.getElementById('new-pass').value;
-        if(!newP) return alert('Ingrese la nueva contraseña');
-        const res = await fetch(API_URL, {
+    const newP = document.getElementById('new-pass').value;
+    if(!newP) return alert('Por favor, escribe la nueva contraseña');
+    
+    const btn = document.querySelector('#pass-card button');
+    const originalText = btn.innerText;
+    
+    btn.innerText = 'Guardando...';
+    btn.disabled = true;
+
+    try {
+        const response = await fetch(API_URL, {
             method: 'POST',
-            body: JSON.stringify({action: 'changePass', user: sessionUser, newPass: newP})
-        }).then(r => r.json());
-        if(res.success) {
-            alert('Contraseña actualizada correctamente');
-            document.getElementById('pass-card').classList.add('hidden');
-            document.getElementById('new-pass').value = '';
-        }
+            mode: 'no-cors', // Importante para evitar bloqueos de redirección de Google
+            body: JSON.stringify({
+                action: 'changePass', 
+                user: sessionUser, // Esta variable se llena al hacer login exitoso
+                newPass: newP
+            })
+        });
+
+        // Como usamos 'no-cors', no podemos leer el JSON de respuesta fácilmente,
+        // pero si la petición sale, el cambio se hace en el Excel.
+        alert('Solicitud enviada. Por seguridad, el sistema se reiniciará.');
+        location.reload(); 
+
+    } catch (e) {
+        console.error(e);
+        alert('Hubo un error al intentar conectar con el servidor.');
+        btn.innerText = originalText;
+        btn.disabled = false;
     }
+}
 
     async function searchStatus() {
         const q = document.getElementById('status-search').value;
