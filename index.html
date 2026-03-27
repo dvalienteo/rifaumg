@@ -5,63 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Tickets UMG</title>
     <style>
-        :root { --bg: #F0F2F7; --navy: #0D1F3C; --orange: #E8580A; --border: #d1d8e8; }
-        body { font-family: sans-serif; background: var(--bg); margin: 0; color: #1a1a1a; }
-        header { text-align: center; padding: 25px; background: var(--navy); color: var(--orange); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .logo { height: 100px; margin-bottom: 10px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
-        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
-        .card { background: white; padding: 25px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        input, button { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; }
-        button { background: var(--navy); color: white; font-weight: bold; cursor: pointer; border: none; }
-        button:hover { opacity: 0.9; }
-        .btn-vender { background: var(--orange); margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th, td { border-bottom: 1px solid var(--border); padding: 12px; text-align: left; }
-        th { background: #f8f9fa; color: var(--navy); }
+        :root { --bg: #F0F2F7; --navy: #0D1F3C; --orange: #E8580A; --border: #d1d8e8; --white: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; color: #333; }
+        header { text-align: center; padding: 30px; background: var(--navy); color: var(--orange); box-shadow: 0 4px 12px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; }
+        .logo { height: 110px; margin-bottom: 10px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
+        .container { max-width: 950px; margin: 30px auto; padding: 0 20px; }
+        .card { background: var(--white); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        h3 { margin-top: 0; color: var(--navy); border-bottom: 2px solid var(--orange); display: inline-block; padding-bottom: 5px; margin-bottom: 20px; }
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+        button { background: var(--navy); color: white; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-orange { background: var(--orange); }
         .hidden { display: none; }
-        footer { margin-top: 50px; padding: 30px; border-top: 1px solid var(--border); text-align: center; color: #666; font-size: 14px; background: white; }
+        .status-box { padding: 15px; border-radius: 8px; background: #f8f9fa; border: 1px solid #eee; margin-top: 10px; }
+        .badge { padding: 5px 10px; border-radius: 5px; font-size: 12px; font-weight: bold; display: inline-block; margin: 5px 5px 0 0; }
+        .badge-paid { background: #e8f5e9; color: #2e7d32; border: 1px solid #2e7d32; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { border-bottom: 1px solid var(--border); padding: 14px; text-align: left; }
+        th { background: #f8f9fa; color: var(--navy); font-weight: bold; }
+        footer { margin-top: 60px; padding: 40px; border-top: 1px solid var(--border); text-align: center; color: #666; font-size: 14px; background: var(--white); }
     </style>
 </head>
 <body>
 
 <header>
-    <img src="https://i.ibb.co/hRJQ7ZqC/01-Logo-2026-sticker.png" alt="Logo" class="logo">
-    <h1 style="margin:0; font-size:22px;">CONTROL DE TICKETS ANIVERSARIO UMG</h1>
+    <img src="https://i.ibb.co/hRJQ7ZqC/01-Logo-2026-sticker.png" alt="Logo UMG" class="logo">
+    <h1 style="margin:0; letter-spacing: 1px;">CONTROL DE TICKETS ANIVERSARIO UMG</h1>
 </header>
 
 <div class="container">
     <div id="login-section" class="card" style="max-width:400px; margin:40px auto;">
-        <h3 style="text-align:center; color:var(--navy);">ACCESO</h3>
+        <h3 style="display:block; text-align:center;">INICIO DE SESIÓN</h3>
         <input type="text" id="user" placeholder="Usuario">
         <input type="password" id="pass" placeholder="Contraseña">
-        <button id="btn-login" onclick="login()">INGRESAR</button>
+        <button id="btn-login" onclick="login()">INGRESAR AL SISTEMA</button>
     </div>
 
     <div id="main-section" class="hidden">
-        <div class="card" style="display:flex; justify-content:space-between; align-items:center; padding:10px 20px;">
-            <span>👤 <b id="vendedor-name"></b> (<span id="rol-tag"></span>)</span>
-            <button onclick="location.reload()" style="width:auto; padding:5px 15px; background:#555;">Salir</button>
+        <div class="card" style="display:flex; justify-content:space-between; align-items:center; padding:15px 25px;">
+            <span>Bienvenido: 👤 <b id="vendedor-name"></b> (<span id="rol-tag" style="text-transform:uppercase; font-size:11px;"></span>)</span>
+            <div style="display:flex; gap:10px;">
+                <button onclick="document.getElementById('pass-card').classList.toggle('hidden')" style="width:auto; background:#6c757d; padding:8px 15px;">🔑 Clave</button>
+                <button onclick="location.reload()" style="width:auto; background:#343a40; padding:8px 15px;">Salir</button>
+            </div>
         </div>
 
-        <div id="action-section" class="card">
-            <h3>ASIGNAR TICKET (Q25.00)</h3>
-            <input type="text" id="search-input" placeholder="Buscar nombre..." oninput="search()">
-            <div id="results" style="border:1px solid #eee; border-radius:4px; max-height:150px; overflow-y:auto;"></div>
+        <div id="pass-card" class="card hidden">
+            <h3>Cambiar Contraseña</h3>
+            <input type="password" id="new-pass" placeholder="Escriba su nueva contraseña">
+            <button class="btn-orange" onclick="updatePassword()">ACTUALIZAR MI CLAVE</button>
+        </div>
+
+        <div class="card">
+            <h3>🔍 CONSULTAR ESTATUS ESTUDIANTE</h3>
+            <input type="text" id="status-search" placeholder="Escriba nombre del alumno para ver sus tickets..." oninput="searchStatus()">
+            <div id="status-results"></div>
+        </div>
+
+        <div id="action-section" class="card hidden">
+            <h3>➕ REGISTRAR NUEVA VENTA</h3>
+            <input type="text" id="reg-search" placeholder="Buscar alumno en listado oficial..." oninput="searchRegister()">
+            <div id="reg-results" style="border:1px solid #eee; border-radius:8px; max-height:150px; overflow-y:auto; margin-top:5px;"></div>
             
-            <div id="form-registro" class="hidden" style="margin-top:20px; border-top:2px solid var(--orange); padding-top:15px;">
-                <p>Estudiante: <b id="sel-nombre" style="color:var(--navy);"></b></p>
+            <div id="form-registro" class="hidden" style="margin-top:20px; border-top:3px solid var(--orange); padding-top:15px; background:#fffaf5; padding:15px; border-radius:8px;">
+                <p>Registrando a: <b id="sel-nombre" style="font-size:18px;"></b></p>
                 <div style="display:flex; gap:10px;">
                     <input type="text" id="sel-ciclo" placeholder="Ciclo">
                     <input type="text" id="sel-seccion" placeholder="Sección">
                 </div>
-                <input type="number" id="num-ticket" placeholder="No. de Ticket Físico" style="border-color:var(--orange); font-weight:bold;">
-                <button class="btn-vender" onclick="vender()">REGISTRAR VENTA</button>
+                <input type="number" id="num-ticket" placeholder="Número de Ticket Físico" style="font-weight:bold; border-color:var(--orange);">
+                <button class="btn-orange" onclick="vender()">CONFIRMAR VENTA (Q25.00)</button>
             </div>
         </div>
 
         <div class="card">
-            <h3>HISTORIAL DE VENTAS</h3>
-            <div id="admin-stats" class="hidden" style="padding:10px; background:#e8f5e9; color:#2e7d32; border-radius:4px; margin-bottom:10px; font-weight:bold;"></div>
+            <h3>HISTORIAL GENERAL DE VENTAS</h3>
+            <div id="admin-stats" class="hidden" style="padding:12px; background:#e8f5e9; color:#2e7d32; border-radius:8px; margin-bottom:15px; font-weight:bold; text-align:center; border:1px solid #2e7d32;"></div>
             <div style="overflow-x:auto;">
                 <table>
                     <thead>
@@ -76,18 +95,19 @@
 
 <footer>
     <div>· Universidad Mariano Gálvez · Puerto Barrios, Izabal ·</div>
-    <div style="font-weight:bold; color:var(--navy); margin-top:5px;">© M.A. Inga. Delmy Valiente</div>
+    <div>© M.A. Inga. Delmy Valiente</div>
 </footer>
 
 <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbx4KTDlQM5tO79lFR7DErjduI2cwXsCaOpEn5DxwNO76uqXgh0NllHMbLe5Jcddnx-N/exec';
     let currentUser = {};
+    let sessionUser = ""; // Para el cambio de clave
 
     async function login() {
         const u = document.getElementById('user').value;
         const p = document.getElementById('pass').value;
         const btn = document.getElementById('btn-login');
-        if(!u || !p) return alert('Llene los campos');
+        if(!u || !p) return alert('Por favor complete los campos');
         
         btn.innerText = 'Verificando...';
         btn.disabled = true;
@@ -95,34 +115,66 @@
         try {
             const res = await fetch(`${API_URL}?action=login&user=${u}&pass=${p}`).then(r => r.json());
             if(res.success) {
+                sessionUser = u; 
                 currentUser = res;
                 document.getElementById('login-section').classList.add('hidden');
                 document.getElementById('main-section').classList.remove('hidden');
                 document.getElementById('vendedor-name').innerText = res.user;
                 document.getElementById('rol-tag').innerText = res.rol;
-                if(res.rol === 'consultor') document.getElementById('action-section').classList.add('hidden');
+                if(res.rol !== 'consultor') document.getElementById('action-section').classList.remove('hidden');
                 loadTickets();
             } else {
-                alert('Credenciales incorrectas');
-                btn.innerText = 'INGRESAR';
+                alert('Usuario o contraseña incorrectos');
+                btn.innerText = 'INGRESAR AL SISTEMA';
                 btn.disabled = false;
             }
         } catch(e) {
-            alert('Error de conexión. Revise que Apps Script esté publicado para "Cualquier persona".');
-            btn.innerText = 'INGRESAR';
+            alert('Error de conexión con el servidor.');
+            btn.innerText = 'INGRESAR AL SISTEMA';
             btn.disabled = false;
         }
     }
 
-    async function search() {
-        const q = document.getElementById('search-input').value;
-        if(q.length < 3) return document.getElementById('results').innerHTML = '';
+    async function updatePassword() {
+        const newP = document.getElementById('new-pass').value;
+        if(!newP) return alert('Ingrese la nueva contraseña');
+        const res = await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({action: 'changePass', user: sessionUser, newPass: newP})
+        }).then(r => r.json());
+        if(res.success) {
+            alert('Contraseña actualizada correctamente');
+            document.getElementById('pass-card').classList.add('hidden');
+            document.getElementById('new-pass').value = '';
+        }
+    }
+
+    async function searchStatus() {
+        const q = document.getElementById('status-search').value;
+        if(q.length < 3) return document.getElementById('status-results').innerHTML = '';
+        
+        const students = await fetch(`${API_URL}?action=search&query=${q}`).then(r => r.json());
+        let html = '';
+        for(let s of students) {
+            const tickets = await fetch(`${API_URL}?action=checkStatus&nombre=${encodeURIComponent(s[0])}`).then(r => r.json());
+            let list = tickets.length > 0 ? 
+                tickets.map(t => `<span class="badge badge-paid">Ticket #${t[2]} (Q25.00)</span>`).join(' ') : 
+                '<span style="color:red; font-size:12px;">Sin tickets registrados</span>';
+            
+            html += `<div class="status-box"><b>${s[0]}</b><br><small>${s[1] || 'S/C'} - ${s[2] || 'S/S'}</small><br>${list}</div>`;
+        }
+        document.getElementById('status-results').innerHTML = html || '<div class="status-box">No se encontraron resultados</div>';
+    }
+
+    async function searchRegister() {
+        const q = document.getElementById('reg-search').value;
+        if(q.length < 3) return document.getElementById('reg-results').innerHTML = '';
         const res = await fetch(`${API_URL}?action=search&query=${q}`).then(r => r.json());
         let html = '';
         res.forEach(r => {
             html += `<div style="padding:10px; border-bottom:1px solid #eee; cursor:pointer;" onclick="selectEst('${r[0]}','${r[1]}','${r[2]}')"><b>${r[0]}</b> (${r[1]}-${r[2]})</div>`;
         });
-        document.getElementById('results').innerHTML = html;
+        document.getElementById('reg-results').innerHTML = html;
     }
 
     function selectEst(n, c, s) {
@@ -130,7 +182,8 @@
         document.getElementById('sel-nombre').innerText = n;
         document.getElementById('sel-ciclo').value = c !== 'undefined' ? c : '';
         document.getElementById('sel-seccion').value = s !== 'undefined' ? s : '';
-        document.getElementById('results').innerHTML = '';
+        document.getElementById('reg-results').innerHTML = '';
+        document.getElementById('num-ticket').focus();
     }
 
     async function vender() {
@@ -142,12 +195,12 @@
             ticket: document.getElementById('num-ticket').value,
             vendedor: currentUser.user
         };
-        if(!data.ticket) return alert('Ingrese el número de ticket');
+        if(!data.ticket) return alert('Debe ingresar el número de ticket');
         
         await fetch(API_URL, { method: 'POST', body: JSON.stringify(data) });
         alert('Venta registrada con éxito');
         document.getElementById('form-registro').classList.add('hidden');
-        document.getElementById('search-input').value = '';
+        document.getElementById('reg-search').value = '';
         loadTickets();
     }
 
@@ -157,18 +210,18 @@
         let total = 0;
         res.slice(1).forEach((r, idx) => {
             total += 25;
-            let btn = currentUser.rol === 'admin' ? `<button onclick="deleteT(${idx+1})" style="width:auto; padding:2px 8px; background:red; font-size:10px;">X</button>` : '';
-            html += `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[6]||'-'}</td><td style="color:var(--orange); font-weight:bold;">#${r[2]}</td><td>${r[4]}</td><td>${new Date(r[5]).toLocaleDateString()}</td><td>${btn}</td></tr>`;
+            let btn = currentUser.rol === 'admin' ? `<button onclick="deleteT(${idx+1})" style="width:auto; padding:2px 8px; background:#dc3545; font-size:10px;">Eliminar</button>` : '';
+            html += `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[6]||'-'}</td><td style="color:var(--orange); font-weight:bold;">#${r[2]}</td><td>${r[4]}</td><td>${new Date(r[5]).toLocaleDateString()}</td><td>${btn}</td></tr>`;
         });
         document.getElementById('tickets-body').innerHTML = html;
         if(currentUser.rol === 'admin') {
-            document.getElementById('admin-stats').innerText = `TOTAL RECAUDADO: Q${total}.00 | TICKETS: ${res.length-1}`;
+            document.getElementById('admin-stats').innerText = `💰 TOTAL RECAUDADO: Q${total}.00 | 🎫 TICKETS VENDIDOS: ${res.length-1}`;
             document.getElementById('admin-stats').classList.remove('hidden');
         }
     }
 
     async function deleteT(idx) {
-        if(!confirm('¿Eliminar registro?')) return;
+        if(!confirm('¿Desea eliminar este registro permanentemente?')) return;
         await fetch(API_URL, { method: 'POST', body: JSON.stringify({action:'deleteTicket', row:idx, role:currentUser.rol}) });
         loadTickets();
     }
