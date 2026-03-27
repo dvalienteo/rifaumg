@@ -1,261 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-/*CSS*/
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Tickets UMG</title>
     <style>
-        :root { 
-            --bg-page: #F0F2F7;
-            --navy: #0D1F3C;
-            --orange: #E8580A;
-            --white: #FFFFFF;
-            --border: #d1d8e8;
-            --text-dark: #1a1a1a;
-            --muted: #666666;
-        }
-
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: var(--bg-page); 
-            color: var(--text-dark); 
-            margin: 0; 
-            padding: 0; 
-        }
-
-        /* ENCABEZADO */
-/* ENCABEZADO */
-header { 
-    text-align: center; 
-    padding: 30px 20px; /* Aumentamos el padding para dar aire al logo grande */
-    background-color: var(--navy); 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.logo { 
-    height: 120px; /* Aquí controlas el tamaño. Antes era 50px, ahora 120px */
-    width: auto;   /* El ancho se ajusta solo para no deformarse */
-    margin-bottom: 15px;
-    filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3)); /* Esto hace que el "sticker" resalte */
-    object-fit: contain;
-}
-
-header h1 {
-    color: var(--orange);
-    font-size: 26px; /* Un poco más grande para equilibrar con el logo */
-    font-weight: 800;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-}
-
-        /* CONTENEDOR PRINCIPAL */
-        .container { 
-            max-width: 1000px; 
-            margin: 30px auto; 
-            padding: 0 20px; 
-        }
-
-        .card { 
-            background-color: var(--white);
-            padding: 25px; 
-            margin-bottom: 25px; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border: 1px solid var(--border);
-        }
-
-        .card h3 {
-            margin-top: 0;
-            color: var(--navy);
-            border-left: 4px solid var(--orange);
-            padding-left: 15px;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-
-        /* FORMULARIOS Y BOTONES */
-        input, select, button { 
-            width: 100%; 
-            padding: 12px; 
-            margin: 10px 0; 
-            border: 1px solid var(--border); 
-            border-radius: 6px;
-            box-sizing: border-box; 
-            font-size: 15px;
-        }
-
-        input:focus {
-            border-color: var(--orange);
-            outline: none;
-            box-shadow: 0 0 5px rgba(232, 88, 10, 0.2);
-        }
-
-        button { 
-            background-color: var(--navy); 
-            color: var(--white); 
-            cursor: pointer; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            border: none;
-            transition: all 0.3s ease;
-        }
-
-        button:hover { 
-            background-color: #162d52;
-            transform: translateY(-1px);
-        }
-
-        .btn-vender {
-            background-color: var(--orange);
-            font-size: 16px;
-            margin-top: 15px;
-        }
-
-        .btn-vender:hover {
-            background-color: #cf4d08;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            width: auto;
-            padding: 6px 12px;
-            font-size: 11px;
-        }
-
-        /* TABLAS */
-        .table-wrap { overflow-x: auto; }
-
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 10px; 
-        }
-
-        th, td { 
-            border-bottom: 1px solid var(--border); 
-            padding: 14px; 
-            text-align: left; 
-            font-size: 13.5px; 
-        }
-
-        th {
-            background-color: #f8f9fa;
-            color: var(--navy);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 12px;
-        }
-
-        tr:hover { background-color: #fcfcfc; }
-
-        /* UTILIDADES */
+        :root { --bg: #F0F2F7; --navy: #0D1F3C; --orange: #E8580A; --border: #d1d8e8; }
+        body { font-family: sans-serif; background: var(--bg); margin: 0; color: #1a1a1a; }
+        header { text-align: center; padding: 25px; background: var(--navy); color: var(--orange); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .logo { height: 100px; margin-bottom: 10px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        .card { background: white; padding: 25px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; }
+        button { background: var(--navy); color: white; font-weight: bold; cursor: pointer; border: none; }
+        button:hover { opacity: 0.9; }
+        .btn-vender { background: var(--orange); margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { border-bottom: 1px solid var(--border); padding: 12px; text-align: left; }
+        th { background: #f8f9fa; color: var(--navy); }
         .hidden { display: none; }
-        
-        .stats-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 10px 15px;
-            background: #eef2f7;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        #search-results div {
-            padding: 12px;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        #search-results div:hover { background-color: #f1f8ff; }
-
-        /* PIE DE PÁGINA */
-        footer { 
-            margin-top: 80px; 
-            padding: 40px 20px; 
-            border-top: 1px solid var(--border); 
-            text-align: center; 
-            font-size: 14px; 
-            color: var(--muted);
-            background-color: var(--white);
-            line-height: 1.6;
-        }
-
-        .footer-line-2 {
-            font-weight: bold; 
-            color: var(--navy);
-            margin-top: 5px;
-        }
+        footer { margin-top: 50px; padding: 30px; border-top: 1px solid var(--border); text-align: center; color: #666; font-size: 14px; background: white; }
     </style>
 </head>
 <body>
 
 <header>
-    <img src="https://i.ibb.co/hRJQ7ZqC/01-Logo-2026-sticker.png" alt="Logo UMG" class="logo">
-    <h1>CONTROL DE TICKETS ANIVERSARIO UMG</h1>
+    <img src="https://i.ibb.co/hRJQ7ZqC/01-Logo-2026-sticker.png" alt="Logo" class="logo">
+    <h1 style="margin:0; font-size:22px;">CONTROL DE TICKETS ANIVERSARIO UMG</h1>
 </header>
 
 <div class="container">
-    <div id="login-section" class="card" style="max-width: 400px; margin: 60px auto;">
-        <h3>ACCESO AL SISTEMA</h3>
+    <div id="login-section" class="card" style="max-width:400px; margin:40px auto;">
+        <h3 style="text-align:center; color:var(--navy);">ACCESO</h3>
         <input type="text" id="user" placeholder="Usuario">
         <input type="password" id="pass" placeholder="Contraseña">
-        <button onclick="login()">Ingresar</button>
+        <button id="btn-login" onclick="login()">INGRESAR</button>
     </div>
 
     <div id="main-section" class="hidden">
-        <div class="stats-header">
-            <span>👤 <b id="vendedor-name"></b> | Rol: <span id="rol-tag" style="text-transform: capitalize;"></span></span>
-            <button onclick="location.reload()" style="width:auto; padding:5px 15px; margin:0; background:#555;">Cerrar Sesión</button>
+        <div class="card" style="display:flex; justify-content:space-between; align-items:center; padding:10px 20px;">
+            <span>👤 <b id="vendedor-name"></b> (<span id="rol-tag"></span>)</span>
+            <button onclick="location.reload()" style="width:auto; padding:5px 15px; background:#555;">Salir</button>
         </div>
 
         <div id="action-section" class="card">
             <h3>ASIGNAR TICKET (Q25.00)</h3>
-            <input type="text" id="search-input" placeholder="Buscar estudiante por nombre..." oninput="search()">
-            <div id="search-results" style="max-height: 200px; overflow-y: auto; border: 1px solid #eee; border-radius: 4px; margin-top: -10px;"></div>
+            <input type="text" id="search-input" placeholder="Buscar nombre..." oninput="search()">
+            <div id="results" style="border:1px solid #eee; border-radius:4px; max-height:150px; overflow-y:auto;"></div>
             
-            <div id="form-registro" class="hidden" style="margin-top: 25px; background: #fdfdfd; padding: 20px; border: 1px dashed var(--orange); border-radius: 8px;">
-                <p>Registrando a: <b id="sel-nombre" style="font-size: 18px; color: var(--navy);"></b></p>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div>
-                        <label style="font-size: 12px; font-weight: bold;">CICLO:</label>
-                        <input type="text" id="sel-ciclo" placeholder="Ej: Primero">
-                    </div>
-                    <div>
-                        <label style="font-size: 12px; font-weight: bold;">SECCIÓN:</label>
-                        <input type="text" id="sel-seccion" placeholder="Ej: A">
-                    </div>
+            <div id="form-registro" class="hidden" style="margin-top:20px; border-top:2px solid var(--orange); padding-top:15px;">
+                <p>Estudiante: <b id="sel-nombre" style="color:var(--navy);"></b></p>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="sel-ciclo" placeholder="Ciclo">
+                    <input type="text" id="sel-seccion" placeholder="Sección">
                 </div>
-                <label style="font-size: 12px; font-weight: bold;">NÚMERO DE TICKET FÍSICO:</label>
-                <input type="number" id="num-ticket" placeholder="0000" style="font-size: 20px; text-align: center; color: var(--orange); font-weight: bold;">
-                <button class="btn-vender" onclick="vender()">Finalizar Registro de Venta</button>
+                <input type="number" id="num-ticket" placeholder="No. de Ticket Físico" style="border-color:var(--orange); font-weight:bold;">
+                <button class="btn-vender" onclick="vender()">REGISTRAR VENTA</button>
             </div>
         </div>
 
         <div class="card">
             <h3>HISTORIAL DE VENTAS</h3>
-            <div id="admin-stats" class="hidden" style="padding: 10px; background: #e8f5e9; color: #2e7d32; border-radius: 4px; font-weight: bold; margin-bottom: 15px; text-align: center;"></div>
-            
-            <div class="table-wrap">
-                <table id="tickets-table">
+            <div id="admin-stats" class="hidden" style="padding:10px; background:#e8f5e9; color:#2e7d32; border-radius:4px; margin-bottom:10px; font-weight:bold;"></div>
+            <div style="overflow-x:auto;">
+                <table>
                     <thead>
-                        <tr>
-                            <th>Estudiante</th>
-                            <th>Ciclo</th>
-                            <th>Sec.</th>
-                            <th>Ticket</th>
-                            <th>Monto</th>
-                            <th>Vendedor</th>
-                            <th>Fecha</th>
-                            <th>Acción</th>
-                        </tr>
+                        <tr><th>Estudiante</th><th>Ciclo</th><th>Sec.</th><th>Ticket</th><th>Vendedor</th><th>Fecha</th><th>Acción</th></tr>
                     </thead>
                     <tbody id="tickets-body"></tbody>
                 </table>
@@ -266,59 +76,53 @@ header h1 {
 
 <footer>
     <div>· Universidad Mariano Gálvez · Puerto Barrios, Izabal ·</div>
-    <div>© M.A. Inga. Delmy Valiente</div>
+    <div style="font-weight:bold; color:var(--navy); margin-top:5px;">© M.A. Inga. Delmy Valiente</div>
 </footer>
 
 <script>
-    // CAMBIA ESTA URL POR LA DE TU APPS SCRIPT
-    const API_URL = 'https://script.google.com/macros/s/AKfycbx4KTDlQM5tO79lFR7DErjduI2cwXsCaOpEn5DxwNO76uqXgh0NllHMbLe5Jcddnx-N/exec'; 
+    const API_URL = 'https://script.google.com/macros/s/AKfycbx4KTDlQM5tO79lFR7DErjduI2cwXsCaOpEn5DxwNO76uqXgh0NllHMbLe5Jcddnx-N/exec';
     let currentUser = {};
 
     async function login() {
-        const user = document.getElementById('user').value;
-        const pass = document.getElementById('pass').value;
-        if(!user || !pass) return alert('Ingrese datos');
+        const u = document.getElementById('user').value;
+        const p = document.getElementById('pass').value;
+        const btn = document.getElementById('btn-login');
+        if(!u || !p) return alert('Llene los campos');
+        
+        btn.innerText = 'Verificando...';
+        btn.disabled = true;
 
-        // Petición real al backend
-        const resp = await fetch(API_URL, {
-            method: 'POST',
-            body: JSON.stringify({action: 'login', user, pass})
-        });
-        const res = await resp.json();
-
-        if(res.success) {
-            currentUser = res;
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('main-section').classList.remove('hidden');
-            document.getElementById('vendedor-name').innerText = res.user;
-            document.getElementById('rol-tag').innerText = res.rol;
-            if(res.rol === 'consultor') document.getElementById('action-section').classList.add('hidden');
-            loadTickets();
-        } else {
-            alert('Usuario o contraseña no válidos');
+        try {
+            const res = await fetch(`${API_URL}?action=login&user=${u}&pass=${p}`).then(r => r.json());
+            if(res.success) {
+                currentUser = res;
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('main-section').classList.remove('hidden');
+                document.getElementById('vendedor-name').innerText = res.user;
+                document.getElementById('rol-tag').innerText = res.rol;
+                if(res.rol === 'consultor') document.getElementById('action-section').classList.add('hidden');
+                loadTickets();
+            } else {
+                alert('Credenciales incorrectas');
+                btn.innerText = 'INGRESAR';
+                btn.disabled = false;
+            }
+        } catch(e) {
+            alert('Error de conexión. Revise que Apps Script esté publicado para "Cualquier persona".');
+            btn.innerText = 'INGRESAR';
+            btn.disabled = false;
         }
     }
 
     async function search() {
-        const query = document.getElementById('search-input').value;
-        if(query.length < 3) {
-            document.getElementById('search-results').innerHTML = '';
-            return;
-        }
-
-        const resp = await fetch(API_URL, {
-            method: 'POST', 
-            body: JSON.stringify({action: 'search', query})
-        });
-        const res = await resp.json();
-        
+        const q = document.getElementById('search-input').value;
+        if(q.length < 3) return document.getElementById('results').innerHTML = '';
+        const res = await fetch(`${API_URL}?action=search&query=${q}`).then(r => r.json());
         let html = '';
         res.forEach(r => {
-            html += `<div onclick="selectEst('${r[0]}','${r[1]}','${r[2]}')">
-                        <b>${r[0]}</b> <span style="color:#888; font-size:12px;">(${r[1] || 'Sin ciclo'} - ${r[2] || 'Sin sección'})</span>
-                     </div>`;
+            html += `<div style="padding:10px; border-bottom:1px solid #eee; cursor:pointer;" onclick="selectEst('${r[0]}','${r[1]}','${r[2]}')"><b>${r[0]}</b> (${r[1]}-${r[2]})</div>`;
         });
-        document.getElementById('search-results').innerHTML = html || '<div style="padding:10px;">Sin resultados</div>';
+        document.getElementById('results').innerHTML = html;
     }
 
     function selectEst(n, c, s) {
@@ -326,66 +130,46 @@ header h1 {
         document.getElementById('sel-nombre').innerText = n;
         document.getElementById('sel-ciclo').value = c !== 'undefined' ? c : '';
         document.getElementById('sel-seccion').value = s !== 'undefined' ? s : '';
-        document.getElementById('search-results').innerHTML = '';
-        document.getElementById('num-ticket').focus();
+        document.getElementById('results').innerHTML = '';
     }
 
     async function vender() {
-        const c = document.getElementById('sel-ciclo').value;
-        const s = document.getElementById('sel-seccion').value;
-        const t = document.getElementById('num-ticket').value;
-
-        if(!c || !s || !t) return alert('Complete Ciclo, Sección y No. de Ticket');
-
         const data = {
             action: 'registerTicket',
             nombre: document.getElementById('sel-nombre').innerText,
-            ciclo: c,
-            seccion: s, // Columna G
-            ticket: t,
+            ciclo: document.getElementById('sel-ciclo').value,
+            seccion: document.getElementById('sel-seccion').value,
+            ticket: document.getElementById('num-ticket').value,
             vendedor: currentUser.user
         };
-
-        await fetch(API_URL, {method: 'POST', body: JSON.stringify(data)});
-        alert('Venta guardada correctamente');
+        if(!data.ticket) return alert('Ingrese el número de ticket');
+        
+        await fetch(API_URL, { method: 'POST', body: JSON.stringify(data) });
+        alert('Venta registrada con éxito');
         document.getElementById('form-registro').classList.add('hidden');
         document.getElementById('search-input').value = '';
         loadTickets();
     }
 
     async function loadTickets() {
-        const resp = await fetch(API_URL, {method: 'POST', body: JSON.stringify({action: 'getTickets'})});
-        const res = await resp.json();
+        const res = await fetch(`${API_URL}?action=getTickets`).then(r => r.json());
         let html = '';
         let total = 0;
-
-        // r[0]:Nombre, r[1]:Ciclo, r[2]:Ticket, r[3]:Monto, r[4]:Vendedor, r[5]:Fecha, r[6]:Sección
         res.slice(1).forEach((r, idx) => {
-            total += parseFloat(r[3]);
-            let delBtn = (currentUser.rol === 'admin') ? `<button onclick="deleteT(${idx+1})" class="btn-danger">Eliminar</button>` : '';
-            
-            html += `<tr>
-                <td><b>${r[0]}</b></td>
-                <td>${r[1]}</td>
-                <td>${r[6] || '-'}</td>
-                <td style="color:var(--orange); font-weight:bold;">#${r[2]}</td>
-                <td>Q${r[3]}.00</td>
-                <td>${r[4]}</td>
-                <td style="font-size:11px;">${new Date(r[5]).toLocaleString()}</td>
-                <td>${delBtn}</td>
-            </tr>`;
+            total += 25;
+            let btn = currentUser.rol === 'admin' ? `<button onclick="deleteT(${idx+1})" style="width:auto; padding:2px 8px; background:red; font-size:10px;">X</button>` : '';
+            html += `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[6]||'-'}</td><td style="color:var(--orange); font-weight:bold;">#${r[2]}</td><td>${r[4]}</td><td>${new Date(r[5]).toLocaleDateString()}</td><td>${btn}</td></tr>`;
         });
-
         document.getElementById('tickets-body').innerHTML = html;
         if(currentUser.rol === 'admin') {
-            document.getElementById('admin-stats').innerText = `TOTAL RECAUDADO: Q${total}.00 | TICKETS: ${res.length - 1}`;
+            document.getElementById('admin-stats').innerText = `TOTAL RECAUDADO: Q${total}.00 | TICKETS: ${res.length-1}`;
             document.getElementById('admin-stats').classList.remove('hidden');
         }
     }
 
     async function deleteT(idx) {
-        if(!confirm('¿Eliminar este registro de venta?')) return;
-        await fetch(API_URL, {method: 'POST', body: JSON.stringify({action: 'deleteTicket', row: idx, role: currentUser.rol})});
+        if(!confirm('¿Eliminar registro?')) return;
+        await fetch(API_URL, { method: 'POST', body: JSON.stringify({action:'deleteTicket', row:idx, role:currentUser.rol}) });
         loadTickets();
     }
 </script>
