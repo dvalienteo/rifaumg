@@ -7,96 +7,78 @@
     <style>
         :root { --navy: #0D1F3C; --orange: #E8580A; --bg: #F0F2F7; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
-        header { text-align: center; padding: 20px; background: var(--navy); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-        .logo { height: 100px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); margin-bottom: 8px; }
+        header { text-align: center; padding: 25px; background: var(--navy); color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .logo { height: 110px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); margin-bottom: 10px; }
         .container { max-width: 900px; margin: 20px auto; padding: 0 15px; flex: 1; }
-        .card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); border: 1px solid #ddd; }
-        h3 { margin-top: 0; border-bottom: 2px solid var(--orange); display: inline-block; padding-bottom: 4px; margin-bottom: 15px; }
-        input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
-        button { background: var(--navy); color: white; font-weight: bold; cursor: pointer; border: none; transition: 0.2s; }
-        button:hover { opacity: 0.9; }
+        .card { background: white; padding: 22px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #ddd; }
+        h3 { margin-top: 0; border-bottom: 2px solid var(--orange); display: inline-block; padding-bottom: 5px; margin-bottom: 15px; }
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 15px; }
+        button { background: var(--navy); color: white; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
         .btn-orange { background: var(--orange); }
         .hidden { display: none; }
         
-        /* VENTANA MODAL */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 3000; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 380px; text-align: center; position: relative; }
-        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #999; }
-
-        .res-item { padding: 10px; border-bottom: 1px solid #eee; cursor: pointer; }
-        .res-item:hover { background: #f0f7ff; }
+        .res-item { padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; transition: 0.2s; }
+        .res-item:hover { background: #f1f8ff; color: var(--navy); font-weight: bold; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th, td { border-bottom: 1px solid #eee; padding: 10px; text-align: left; }
-        .badge-paid { background: #e8f5e9; color: #2e7d32; padding: 4px 8px; border-radius: 5px; font-weight: bold; font-size: 11px; }
-        footer { padding: 25px; background: white; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 13px; margin-top: 30px; }
+        th, td { border-bottom: 1px solid #eee; padding: 12px; text-align: left; }
+        .badge-paid { background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px solid #2e7d32; display: inline-block; margin-top: 5px; }
+        footer { padding: 30px; background: white; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 14px; margin-top: 40px; }
     </style>
 </head>
 <body>
 
 <header>
     <img src="https://i.ibb.co/hRJQ7ZqC/01-Logo-2026-sticker.png" class="logo">
-    <h1 style="margin:0; font-size: 22px;">SISTEMA DE TICKETS UMG 2026</h1>
+    <h1 style="margin:0; font-size: 24px;">CONTROL DE TICKETS ANIVERSARIO UMG</h1>
 </header>
 
 <div class="container">
-    <div id="login-section" class="card" style="max-width:380px; margin: 40px auto;">
-        <h3 style="display:block; text-align:center">BIENVENIDO</h3>
+    <div id="login-section" class="card" style="max-width:400px; margin: 40px auto;">
+        <h3 style="display:block; text-align:center">ACCESO AL SISTEMA</h3>
         <input type="text" id="user" placeholder="Usuario">
         <input type="password" id="pass" placeholder="Contraseña">
         <button onclick="login()">INGRESAR</button>
     </div>
 
     <div id="main-section" class="hidden">
-        <div class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 10px;">
-            <div>👤 <b id="v-name"></b> (<span id="v-rol" style="text-transform:uppercase;"></span>)</div>
-            <div style="display:flex; gap:8px;">
-                <button onclick="openPassModal()" style="width:auto; padding:6px 12px; background:#6c757d; font-size:12px;">Cambiar Contraseña</button>
-                <button onclick="location.reload()" style="width:auto; padding:6px 12px; background:#cc0000; font-size:12px;">Salir</button>
-            </div>
+        <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>👤 <b id="v-name"></b> (<span id="v-rol" style="text-transform:uppercase; font-size:11px;"></span>)</span>
+            <button onclick="location.reload()" style="width:auto; padding:6px 15px; background:#444;">Salir</button>
         </div>
 
         <div id="action-section" class="card hidden">
-            <h3 style="color:var(--orange)">➕ REGISTRAR VENTA</h3>
-            <input type="text" id="reg-search" placeholder="Buscar nombre de alumno..." oninput="searchReg()">
-            <div id="reg-results" style="max-height:150px; overflow-y:auto; border:1px solid #eee; border-radius:5px;"></div>
+            <h3 style="color:var(--orange)">➕ REGISTRAR NUEVA VENTA</h3>
+            <input type="text" id="reg-search" placeholder="Escriba nombre del alumno..." oninput="searchReg()">
+            <div id="reg-results" style="border:1px solid #eee; border-radius:8px; max-height:160px; overflow-y:auto;"></div>
             
-            <div id="form-registro" class="hidden" style="margin-top:15px; background:#fffcf5; padding:15px; border:1px solid #ffeeba; border-radius:8px;">
+            <div id="form-registro" class="hidden" style="margin-top:20px; background:#fffcf5; padding:18px; border:1px dashed var(--orange); border-radius:10px;">
                 <p>Estudiante: <b id="sel-nombre"></b></p>
                 <div style="display:flex; gap:10px;">
                     <input type="text" id="sel-ciclo" placeholder="Ciclo">
                     <input type="text" id="sel-seccion" placeholder="Sección">
                 </div>
                 <input type="number" id="num-ticket" placeholder="Número de Ticket">
-                <button class="btn-orange" onclick="vender()">GUARDAR REGISTRO</button>
+                <button class="btn-orange" onclick="vender()">REGISTRAR VENTA</button>
             </div>
         </div>
 
         <div class="card">
             <h3 style="color:var(--navy)">🔍 CONSULTAR ESTATUS</h3>
-            <input type="text" id="status-search" placeholder="Nombre completo para verificar pago..." oninput="searchStatus()">
+            <input type="text" id="status-search" placeholder="Buscar nombre para verificar..." oninput="searchStatus()">
             <div id="status-results" style="margin-top:10px;"></div>
         </div>
 
         <div class="card">
-            <h3>HISTORIAL</h3>
-            <div id="admin-stats" class="hidden" style="margin-bottom:12px; font-weight:bold; color:#2e7d32; text-align:center;"></div>
+            <h3>HISTORIAL RECIENTE</h3>
+            <div id="admin-stats" class="hidden" style="margin-bottom:10px; font-weight:bold; color:green; text-align:center;"></div>
             <div style="overflow-x:auto;">
                 <table>
-                    <thead><tr><th>Alumno</th><th>Ticket</th><th>Vendedor</th><th>Fecha</th></tr></thead>
+                    <thead><tr><th>Estudiante</th><th>Ticket</th><th>Vendedor</th><th>Fecha</th></tr></thead>
                     <tbody id="t-body"></tbody>
                 </table>
             </div>
         </div>
-    </div>
-</div>
-
-<div id="pass-modal" class="modal hidden">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closePassModal()">&times;</span>
-        <h3 style="border:none; margin-bottom:10px;">Nueva Contraseña</h3>
-        <p style="font-size:12px; color:#777; margin-bottom:15px;">Usuario: <span id="user-id-display"></span></p>
-        <input type="password" id="new-pass" placeholder="Escriba su nueva clave">
-        <button class="btn-orange" onclick="updatePass()">ACTUALIZAR AHORA</button>
     </div>
 </div>
 
@@ -108,13 +90,6 @@
 <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbx4KTDlQM5tO79lFR7DErjduI2cwXsCaOpEn5DxwNO76uqXgh0NllHMbLe5Jcddnx-N/exec';
     let currentUser = {};
-
-    // GESTIÓN MODAL
-    function openPassModal() {
-        document.getElementById('user-id-display').innerText = currentUser.id;
-        document.getElementById('pass-modal').classList.remove('hidden');
-    }
-    function closePassModal() { document.getElementById('pass-modal').classList.add('hidden'); }
 
     async function login() {
         const u = document.getElementById('user').value;
@@ -128,18 +103,7 @@
             document.getElementById('v-rol').innerText = res.rol;
             if(res.rol !== 'consultor') document.getElementById('action-section').classList.remove('hidden');
             loadTickets();
-        } else { alert('Credenciales incorrectas'); }
-    }
-
-    async function updatePass() {
-        const nP = document.getElementById('new-pass').value;
-        if(!nP) return alert('Ingrese la clave');
-        await fetch(API_URL, {
-            method: 'POST',
-            body: JSON.stringify({action: 'changePass', user: currentUser.id, newPass: nP})
-        });
-        alert('Contraseña actualizada correctamente.');
-        location.reload();
+        } else { alert('Error de acceso'); }
     }
 
     async function searchReg() {
@@ -168,7 +132,7 @@
             ticket: document.getElementById('num-ticket').value,
             vendedor: currentUser.user
         };
-        if(!data.ticket) return alert('Ponga el número de ticket');
+        if(!data.ticket) return alert('Ingrese ticket');
         await fetch(API_URL, { method: 'POST', body: JSON.stringify(data) });
         alert('Venta registrada');
         document.getElementById('form-registro').classList.add('hidden');
@@ -183,8 +147,8 @@
         let h = '';
         for(let s of students) {
             const tks = await fetch(`${API_URL}?action=checkStatus&nombre=${encodeURIComponent(s[0])}`).then(r => r.json());
-            let l = tks.length > 0 ? tks.map(t => `<span class="badge-paid">Ticket #${t[2]}</span>`).join(' ') : '<span style="color:red; font-size:11px;">No ha pagado</span>';
-            h += `<div style="padding:10px; background:#f9f9f9; margin-bottom:5px; border-radius:5px;"><b>${s[0]}</b><br>${l}</div>`;
+            let list = tks.length > 0 ? tks.map(t => `<span class="badge-paid">Ticket #${t[2]}</span>`).join(' ') : '<span style="color:red">Sin tickets</span>';
+            h += `<div style="padding:10px; background:#f9f9f9; border:1px solid #eee; margin-bottom:5px; border-radius:8px;"><b>${s[0]}</b><br>${list}</div>`;
         }
         document.getElementById('status-results').innerHTML = h;
     }
@@ -198,7 +162,7 @@
         });
         document.getElementById('t-body').innerHTML = h;
         if(currentUser.rol === 'admin') {
-            document.getElementById('admin-stats').innerText = `TOTAL RECAUDADO: Q${total}.00`;
+            document.getElementById('admin-stats').innerText = `TOTAL: Q${total}.00 | TICKETS: ${res.length-1}`;
             document.getElementById('admin-stats').classList.remove('hidden');
         }
     }
